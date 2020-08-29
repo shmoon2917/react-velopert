@@ -1,7 +1,28 @@
-import React, { memo } from "react";
+import React, { memo, useContext, useRef, useCallback } from "react";
+import useInputs from "./hooks/useInputs";
+import { UserDispatch, CREATE_USER } from "./App";
 
-const CreateUser = memo(({ username, email, onChange, onCreate }) => {
-  console.log("createUser hooks 실행", username, email);
+const CreateUser = memo(() => {
+  console.log("createUser hooks 실행");
+  const [{ username, email }, onChange, reset] = useInputs({
+    username: "",
+    email: "",
+  });
+
+  const dispatch = useContext(UserDispatch);
+  const nextId = useRef(4);
+
+  const onCreate = useCallback(() => {
+    const user = {
+      id: nextId.current,
+      username,
+      email,
+    };
+    dispatch({ type: CREATE_USER, user });
+    nextId.current += 1;
+    reset();
+  }, [username, email]);
+
   return (
     <>
       <input

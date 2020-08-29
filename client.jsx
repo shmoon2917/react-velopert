@@ -2,8 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { hot } from "react-hot-loader/root";
 
-import UserAppReducer from "./src/UserAppReducer";
+import App from "./src/App";
 
-const Hot = hot(UserAppReducer);
+const Hot = hot(App);
 
 ReactDOM.render(<Hot />, document.querySelector("#root"));

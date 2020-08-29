@@ -9,6 +9,8 @@
   "author": "sangho",
   "license": "MIT",
   "dependencies": {
+    "immer": "^7.0.8",
+    "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },

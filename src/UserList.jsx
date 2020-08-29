@@ -1,13 +1,20 @@
-import React, { memo, useEffect } from "react";
+import React, { memo, useEffect, useContext, useCallback } from "react";
+import { UserDispatch, TOGGLE_ACTIVE_USER, REMOVE_USER } from "./App";
 
-const User = memo(({ user, onRemove, onToggle }) => {
+const User = memo(({ user }) => {
   console.log("user hooks 실행");
-  useEffect(() => {
-    console.log("mount or update", user);
-    return () => {
-      console.log("unmount", user);
-    };
-  }, [user]);
+  const { dispatch } = useContext(UserDispatch);
+
+  const onToggle = useCallback(
+    (id) => () => {
+      dispatch({ type: TOGGLE_ACTIVE_USER, id });
+    },
+    []
+  );
+
+  const onRemove = useCallback((id) => () => {
+    dispatch({ type: REMOVE_USER, id });
+  });
 
   return (
     <div>
@@ -24,17 +31,12 @@ const User = memo(({ user, onRemove, onToggle }) => {
   );
 });
 
-const UserList = memo(({ users, onRemove, onToggle }) => {
+const UserList = memo(({ users }) => {
   console.log("userList hooks 실행");
   return (
     <div>
       {users.map((user) => (
-        <User
-          user={user}
-          key={user.id}
-          onRemove={onRemove}
-          onToggle={onToggle}
-        />
+        <User user={user} key={user.id} />
       ))}
     </div>
   );
